@@ -1,10 +1,12 @@
 
+# raw large datasets
+data/raw/*.csv
+
+# system files
 drive/
 .config/
 sample_data/
-__pycache__/
-*.ipynb_checkpoints
 *.gdoc
-*.gsheet
-*.zip
-CRISPRGeneEffect.csv
+
+# Python cache
+__pycache__/
