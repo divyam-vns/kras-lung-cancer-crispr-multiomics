@@ -6,3 +6,7 @@ matplotlib
 seaborn
 gseapy
 scikit-learn
+streamlit
+plotly
+pandas
+numpy
