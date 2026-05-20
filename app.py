@@ -4,92 +4,87 @@ import plotly.express as px
 import numpy as np
 
 st.set_page_config(
-    page_title="KRAS CRISPR Explorer",
+    page_title="KRAS CRISPR Dependency Explorer",
     layout="wide"
 )
 
 st.title("🧬 KRAS CRISPR Dependency Explorer")
-
-st.markdown("""
-Interactive dashboard for exploring
-KRAS-mutant lung cancer vulnerabilities
-using CRISPR dependency data.
-""")
+st.markdown("Functional genomics analysis of KRAS-mutant lung cancer vulnerabilities")
 
 # Load data
-df = pd.read_csv("results/ranked_genes.csv")
+df = pd.read_csv("results/kras_vs_wt_crispr_hits.csv")
 
-# Create logP if missing
-if "logP" not in df.columns:
-    df["logP"] = -np.log10(df["Pvalue"])
+# Clean gene names for display
+df["Gene_Symbol"] = df["Gene"].str.replace(r"\s*\(.*\)", "", regex=True)
 
-# Sidebar
+# Sidebar filters
 st.sidebar.header("Filters")
 
 pval_cutoff = st.sidebar.slider(
-    "P-value cutoff",
-    0.0,
-    0.05,
-    0.01
+    "P-value threshold",
+    0.0, 0.05, 0.01
+)
+
+top_n = st.sidebar.slider(
+    "Top genes",
+    10, 100, 20
 )
 
 filtered = df[df["Pvalue"] <= pval_cutoff]
 
-# Top genes
-st.subheader("Top Differential Dependencies")
+# -------------------------
+# TAB LAYOUT
+# -------------------------
+tab1, tab2, tab3 = st.tabs([
+    "📊 Top Dependencies",
+    "🌋 Volcano Plot",
+    "🔬 Gene Explorer"
+])
 
-st.dataframe(
-    filtered.sort_values("Pvalue").head(20)
-)
+# -------------------------
+# TAB 1
+# -------------------------
+with tab1:
+    st.subheader("Top KRAS-Associated Vulnerabilities")
 
-# Volcano Plot
-st.subheader("Volcano Plot")
-
-fig = px.scatter(
-    filtered,
-    x="Diff",
-    y="logP",
-    hover_name="Gene",
-    title="KRAS vs WT Dependency Landscape"
-)
-
-st.plotly_chart(fig, use_container_width=True)
-
-# Gene Search
-st.subheader("Gene Search")
-
-gene = st.text_input(
-    "Enter Gene Name",
-    "KRAS"
-)
-
-gene_df = df[
-    df["Gene"].str.contains(
-        gene,
-        case=False,
-        na=False
+    st.dataframe(
+        filtered.sort_values("Pvalue").head(top_n)[
+            ["Gene_Symbol", "KRAS_mean", "WT_mean", "Diff", "Pvalue"]
+        ]
     )
-]
 
-st.dataframe(gene_df)
+    st.metric("Total Significant Genes", len(filtered))
+    st.metric("All Genes Analyzed", len(df))
 
-# Summary stats
-st.subheader("Dataset Summary")
+# -------------------------
+# TAB 2
+# -------------------------
+with tab2:
+    st.subheader("Volcano Plot (KRAS vs WT Dependency)")
 
-col1, col2, col3 = st.columns(3)
+    fig = px.scatter(
+        filtered,
+        x="Diff",
+        y=-np.log10(filtered["Pvalue"]),
+        hover_data=["Gene_Symbol"],
+        title="Differential Gene Dependency Landscape"
+    )
 
-col1.metric(
-    "Total Genes",
-    len(df)
-)
+    st.plotly_chart(fig, use_container_width=True)
 
-col2.metric(
-    "Significant Genes",
-    len(filtered)
-)
+# -------------------------
+# TAB 3
+# -------------------------
+with tab3:
+    st.subheader("Gene-Level Explorer")
 
-col3.metric(
-    "Top Hit",
-    filtered.sort_values("Pvalue").iloc[0]["Gene"]
-    if len(filtered) > 0 else "N/A"
-)
+    gene_query = st.text_input("Search gene", "KRAS")
+
+    gene_df = df[df["Gene_Symbol"].str.contains(gene_query, case=False)]
+
+    st.dataframe(gene_df)
+
+    if len(gene_df) > 0:
+        st.line_chart(
+            gene_df.set_index("Gene_Symbol")["Diff"]
+        )
