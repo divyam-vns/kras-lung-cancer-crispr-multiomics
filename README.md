@@ -82,8 +82,10 @@ These genes suggest:
 - Oncogene-driven metabolic rewiring
 
 ## Output Figure
+###  Volcano plot showing differential gene dependency
+![volcano Plot](results/volcano_kras_dependency.png)
+
 ```
-Volcano plot showing differential gene dependency
 X-axis: effect size (KRAS vs WT)
 Y-axis: statistical significance (-log10 p-value)
 ```
@@ -91,10 +93,10 @@ Y-axis: statistical significance (-log10 p-value)
 
 KRAS-mutant lung cancer cells exhibit:
 
-Increased dependency on ribosome biogenesis
-Enhanced proteostasis stress response requirements
-Potential synthetic lethal interactions with translation machinery
-Vulnerabilities in chromatin regulation pathways
+- Increased dependency on ribosome biogenesis
+- Enhanced proteostasis stress response requirements
+- Potential synthetic lethal interactions with translation machinery
+- Vulnerabilities in chromatin regulation pathways
 
 These findings align with known KRAS oncogenic rewiring mechanisms.
 
@@ -144,21 +146,24 @@ Then run:
 python scripts/differential_dependency.py
 ```
 ## Future Directions
-Integrate RNA-seq expression data
-Add drug sensitivity (PRISM / GDSC)
-Build predictive ML model for KRAS vulnerability
-Extend to multi-cancer KRAS dependency mapping
-Build interactive Streamlit dashboard
+- Integrate RNA-seq expression data
+- Add drug sensitivity (PRISM / GDSC)
+- Build predictive ML model for KRAS vulnerability
+- Extend to multi-cancer KRAS dependency mapping
+- Build interactive Streamlit dashboard
+
 ## Impact
 
 This workflow demonstrates:
 
-Functional interpretation of CRISPR screening data
-Multi-omics integration in cancer biology
-Identification of actionable therapeutic vulnerabilities
-Reproducible computational oncology pipeline
+- Functional interpretation of CRISPR screening data
+- Multi-omics integration in cancer biology
+- Identification of actionable therapeutic vulnerabilities
+- Reproducible computational oncology pipeline
+
 ## Author
 
 Dr. Divya Mishra, Ph.D.
+
 Bioinformatics / Genomics Data Science Project
 KRAS Functional Dependency Analysis — Lung Cancer
