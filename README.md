@@ -1,32 +1,5 @@
 
 # KRAS-Mutant Lung Cancer CRISPR Dependency Analysis
-
-## Overview
-Multi-omics CRISPR analysis identifying therapeutic vulnerabilities in KRAS-mutant lung cancer.
-
-## Data Sources
-- DepMap CRISPR screens
-- Model metadata
-- Somatic mutation data
-
-## Methods
-- Differential gene dependency analysis
-- KRAS vs WT lung cancer comparison
-- Statistical t-tests
-- Pathway interpretation
-
-## Key Findings
-- KRAS addiction confirmed
-- Ribosomal dependency enrichment
-- Epigenetic vulnerabilities
-- Proteostasis stress signals
-
-## Outputs
-- Volcano plot
-- Ranked gene list
-- Therapeutic vulnerability candidates
-
-KRAS-Driven Dependency Mapping Using CRISPR-Cas9 Functional Genomics and Multi-Omics Integration in Lung Cancer
 ## Overview
 
 This project performs a functional genomics analysis of KRAS-mutant non-small cell lung cancer (NSCLC) using large-scale CRISPR-Cas9 gene dependency data combined with somatic mutation profiles and cancer cell line metadata.
