@@ -10,3 +10,4 @@ sample_data/
 
 # Python cache
 __pycache__/
+CRISPRGeneEffect.csv
